@@ -287,6 +287,7 @@ export default defineComponent({
    var isSecond = ref(false)
     const router = useRouter()
     const formRef = ref();
+    let timer =null
     const formState = reactive({
       no: '',  //学号
       name: '',
@@ -321,13 +322,13 @@ export default defineComponent({
         }
       }
        isSecond.value = false
-
-    
-
-
-      
+       if(timer){clearTimeout(timer)}
+        timer = setTimeout(() => {
+          check()
+        }, 1000);
      
-     let result = await axios.post('/joinus/exists',qs.stringify({
+       let check = async ()=>{
+        let result = await axios.post('/joinus/exists',qs.stringify({
           no:value
       }),config
 )
@@ -340,16 +341,11 @@ export default defineComponent({
         
 
     }
+       }
+      
+    
 
-    //   if (!Number.isInteger(value)) {
-    //     return Promise.reject('Please input digits');
-    //   } else {
-    //     if (value < 18) {
-    //       return Promise.reject('Age must be greater than 18');
-    //     } else {
-    //       return Promise.resolve();
-    //     }
-    //   }
+ 
     };
        
     let checkMail = async (_rule, value) => {
